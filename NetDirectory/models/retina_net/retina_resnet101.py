@@ -5,7 +5,7 @@ from torchvision.models.detection.anchor_utils import AnchorGenerator
 from torchvision.models.resnet import ResNet101_Weights
 
 def create_model(num_classes = 5):
-    backbone = torchvision.models.resnet101(weights=ResNet101_Weights)
+    backbone = torchvision.models.resnet101(weights=ResNet101_Weights.DEFAULT)
 
     new_backbone = torch.nn.Sequential(*list(backbone.children())[:-2])
     print(*list(backbone.children())[:-2])
