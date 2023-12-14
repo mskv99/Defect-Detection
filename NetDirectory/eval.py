@@ -36,7 +36,7 @@ def validate(valid_data_loader, model):
             target.append(true_dict)
         #####################################
 
-    metric = MeanAveragePrecision()
+    metric.reset()
     metric.update(preds, target)
     metric_summary = metric.compute()
     return metric_summary
