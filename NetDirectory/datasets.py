@@ -1,3 +1,18 @@
+from xml.etree import ElementTree as et
+import random
+from torch.utils.data import Dataset, DataLoader
+import cv2
+import numpy as np
+import os
+import glob as glob
+from google.colab.patches import cv2_imshow
+
+from config import (BATCH_SIZE, RESIZE_TO, NUM_WORKERS,
+                    DEVICE,TRAIN_DIR, VALID_DIR, CLASSES,
+                    NUM_CLASSES, OUT_DIR, COLORS
+                    )
+
+
 class CustomDataset(Dataset):
     def __init__(self, dir_path, width, height, classes, transforms=None):
         self.transforms = transforms
@@ -103,35 +118,126 @@ class CustomDataset(Dataset):
     def __len__(self):
         return len(self.all_images)
 
-# Prepare the final datasets and data loaders.
-def create_train_dataset(DIR):
-    train_dataset = CustomDataset(
-        DIR, RESIZE_TO, RESIZE_TO, CLASSES, get_train_transform()
-    )
-    return train_dataset
-def create_valid_dataset(DIR):
-    valid_dataset = CustomDataset(
-        DIR, RESIZE_TO, RESIZE_TO, CLASSES, get_valid_transform()
-    )
-    return valid_dataset
-def create_train_loader(train_dataset, num_workers=0, B_SIZE = BATCH_SIZE):
-    train_loader = DataLoader(
-        train_dataset,
-        batch_size = B_SIZE,
-        shuffle=True,
-        num_workers = num_workers,
-        collate_fn=collate_fn,
-        drop_last=True
-    )
-    return train_loader
-def create_valid_loader(valid_dataset, num_workers=0, B_SIZE = BATCH_SIZE):
-    valid_loader = DataLoader(
-        valid_dataset,
-        batch_size = B_SIZE,
-        shuffle=False,
-        num_workers=num_workers,
-        collate_fn=collate_fn,
-        drop_last=True
-    )
-    return valid_loader
 
+def plot_box(image, target):
+    # Need the image height and width to denormalize
+
+    lw = max(round(sum(image.shape) / 2 * 0.003), 2)  # Line width.
+    tf = max(lw - 1, 1) # Font thickness.
+
+    pred_classes = [CLASSES[i] for i in target['labels']]
+    for box_num in range(len(target['boxes'])):
+      box = target['boxes'][box_num]
+      class_name = pred_classes[box_num]
+      color=COLORS[CLASSES.index(class_name)]
+
+      p1, p2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
+
+
+
+      cv2.rectangle(
+          image,
+          p1, p2,
+          color=(26,26,139),
+          thickness=lw,
+          lineType=cv2.LINE_AA
+      )
+
+      # For filled rectangle.
+      w, h = cv2.getTextSize(
+          class_name,
+          0,
+          fontScale=lw / 3,
+          thickness=tf
+      )[0]
+
+      outside = p1[1] - h >= 3
+      p2 = p1[0] + w, p1[1] - h - 3 if outside else p1[1] + h + 3
+
+      cv2.rectangle(
+          image,
+          p1, p2,
+          color=(26,26,139),
+          thickness=-1,
+          lineType=cv2.LINE_AA
+      )
+      cv2.putText(
+          image,
+          class_name,
+          (p1[0], p1[1] - 5 if outside else p1[1] + h + 2),
+          cv2.FONT_HERSHEY_SIMPLEX,
+          fontScale=lw/3.5,
+          color=(255, 255, 255),
+          thickness=tf,
+          lineType=cv2.LINE_AA
+      )
+    return image
+
+def show_tranformed_image(train_loader, device, classes, colors):
+    """
+    This function shows the transformed images from the `train_loader`.
+    Helps to check whether the tranformed images along with the corresponding
+    labels are correct or not.
+    """
+    if len(train_loader) > 0:
+        for i in range(BATCH_SIZE):
+            images, targets = next(iter(train_loader))
+            images = list(image.to(device) for image in images)
+            targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
+            boxes = targets[i]['boxes'].cpu().numpy().astype(np.int32)
+            labels = targets[i]['labels'].cpu().numpy().astype(np.int32)
+            # Get all the predicited class names.
+            pred_classes = [classes[i] for i in targets[i]['labels'].cpu().numpy()]
+            sample = images[i].permute(1, 2, 0).cpu().numpy()
+            sample = cv2.cvtColor(sample, cv2.COLOR_RGB2BGR)
+
+            lw = max(round(sum(sample.shape) / 2 * 0.003), 2)  # Line width.
+            tf = max(lw - 1, 1) # Font thickness.
+
+
+            for box_num, box in enumerate(boxes):
+
+              class_name = pred_classes[box_num]
+              color=colors[classes.index(class_name)]
+
+              p1, p2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
+
+
+              cv2.rectangle(
+                  sample,
+                  p1, p2,
+                  color=(26,26,139),
+                  thickness=lw,
+                  lineType=cv2.LINE_AA
+              )
+
+              # For filled rectangle.
+              w, h = cv2.getTextSize(
+                  class_name,
+                  0,
+                  fontScale=lw / 3,
+                  thickness=tf
+              )[0]
+
+              outside = p1[1] - h >= 3
+              p2 = p1[0] + w, p1[1] - h - 3 if outside else p1[1] + h + 3
+
+              cv2.rectangle(
+                  sample,
+                  p1, p2,
+                  color=(26,26,139),
+                  thickness=-1,
+                  lineType=cv2.LINE_AA
+              )
+              cv2.putText(
+                  sample,
+                  class_name,
+                  (p1[0], p1[1] - 5 if outside else p1[1] + h + 2),
+                  cv2.FONT_HERSHEY_SIMPLEX,
+                  fontScale=lw/3.5,
+                  color=(255, 255, 255),
+                  thickness=tf,
+                  lineType=cv2.LINE_AA
+              )
+            cv2_imshow(sample)
+            print('\n')
