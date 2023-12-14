@@ -1,5 +1,6 @@
 from xml.etree import ElementTree as et
 import random
+import torch
 from torch.utils.data import Dataset, DataLoader
 import cv2
 import numpy as np
