@@ -1,4 +1,6 @@
 import torch
+import numpy as np
+import random
 
 
 BATCH_SIZE = 8 # Increase / decrease according to GPU memeory.
@@ -28,3 +30,6 @@ VISUALIZE_TRANSFORMED_IMAGES = False
 
 # Location to save model and plots.
 OUT_DIR = '/content/Defect-Detection/NetDirectory/outputs'
+
+COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+
