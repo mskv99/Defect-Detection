@@ -9,7 +9,7 @@ from config import (BATCH_SIZE, RESIZE_TO, NUM_WORKERS,
 from eval import validate
 
 
-def test_inference(DIR_TEST,CONF_THRESHOLD = 0.5, CLASSES, model): 
+def test_inference(DIR_TEST, CLASSES, model, CONF_THRESHOLD = 0.5): 
   
   os.makedirs('inference_outputs/images', exist_ok=True)
   test_images = glob.glob(f"{DIR_TEST}/*.jpg")
@@ -92,14 +92,14 @@ def test_inference(DIR_TEST,CONF_THRESHOLD = 0.5, CLASSES, model):
   print(f"Average FPS: {avg_fps:.3f}")
 
 
-def per_class_stat(valid_loader, model, CLASSES, metric, SAVE_RES_PATH):
+def per_class_stat(valid_loader, model, classes, save_path):
 
   stats = validate(valid_loader, model)
   print('\n')
   print(stats)
 
   print('\n')
-  print(f"Classes: {CLASSES}")
+  print(f"Classes: {classes}")
   print('\n')
   print('AP / AR per class')
   empty_string = ''
@@ -109,9 +109,9 @@ def per_class_stat(valid_loader, model, CLASSES, metric, SAVE_RES_PATH):
       print(f"|    | Class{empty_string:<16}| AP{empty_string:<18}| AR{empty_string:<18}|")
       print('-'*num_hyphens)
       class_counter = 0
-      for i in range(0, len(CLASSES)-1, 1):
+      for i in range(0, len(classes)-1, 1):
           class_counter += 1
-          print(f"|{class_counter:<3} | {CLASSES[i+1]:<20} | {np.array(stats['map_per_class'][i]):.3f}{empty_string:<15}| {np.array(stats['mar_100_per_class'][i]):.3f}{empty_string:<15}|")
+          print(f"|{class_counter:<3} | {classes[i+1]:<20} | {np.array(stats['map_per_class'][i]):.3f}{empty_string:<15}| {np.array(stats['mar_100_per_class'][i]):.3f}{empty_string:<15}|")
       print('-'*num_hyphens)
       print(f"|Avg{empty_string:<23} | {np.array(stats['map']):.3f}{empty_string:<15}| {np.array(stats['mar_100']):.3f}{empty_string:<15}|")
   else:
@@ -119,16 +119,16 @@ def per_class_stat(valid_loader, model, CLASSES, metric, SAVE_RES_PATH):
       print('-'*num_hyphens)
       print(f"|Class{empty_string:<10} | AP{empty_string:<18}| AR{empty_string:<18}|")
       print('-'*num_hyphens)
-      print(f"|{CLASSES[1]:<15} | {np.array(stats['map']):.3f}{empty_string:<15}| {np.array(stats['mar_100']):.3f}{empty_string:<15}|")
+      print(f"|{classes[1]:<15} | {np.array(stats['map']):.3f}{empty_string:<15}| {np.array(stats['mar_100']):.3f}{empty_string:<15}|")
       print('-'*num_hyphens)
       print(f"|Avg{empty_string:<12} | {np.array(stats['map']):.3f}{empty_string:<15}| {np.array(stats['mar_100']):.3f}{empty_string:<15}|")
   
   results_table = pd.DataFrame({
     'Class': ['Bridge','GAP','SRAF'],
-    'AP':[np.round(np.array(stats['map_per_class'][i]),3) for i in range(len(CLASSES)-1)],
-    'AR':[np.round(np.array(stats['mar_100_per_class'][i]),3) for i in range(len(CLASSES)-1)]
+    'AP':[np.round(np.array(stats['map_per_class'][i]),3) for i in range(len(classes)-1)],
+    'AR':[np.round(np.array(stats['mar_100_per_class'][i]),3) for i in range(len(classes)-1)]
 })
 
   results_table.loc[len(results_table.index)] = ['AVG', np.round(np.array(stats['map']),3 ), np.round(np.array(stats['mar_100']),3 )  ]
-  results_table.to_csv(SAVE_RES_PATH)
+  results_table.to_csv(save_path)
     
