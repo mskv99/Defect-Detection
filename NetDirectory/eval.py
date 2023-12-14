@@ -3,8 +3,7 @@ import torch
 from tqdm import tqdm
 from config import DEVICE, NUM_CLASSES, NUM_WORKERS
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
-from model import create_model
-from datasets import create_valid_dataset, create_valid_loader
+
 
 # Evaluation function
 def validate(valid_data_loader, model):
@@ -41,19 +40,3 @@ def validate(valid_data_loader, model):
     metric.update(preds, target)
     metric_summary = metric.compute()
     return metric_summary
-
-if __name__ == '__main__':
-    # Load the best model and trained weights.
-    model = create_model(num_classes=NUM_CLASSES)
-    checkpoint = torch.load('outputs/best_model.pth', map_location=DEVICE)
-    model.load_state_dict(checkpoint['model_state_dict'])
-    model.to(DEVICE).eval()
-
-    test_dataset = create_valid_dataset(
-        'data/BCCD.v3-raw.voc/test'
-    )
-    test_loader = create_valid_loader(test_dataset, num_workers=NUM_WORKERS)
-
-    metric_summary = validate(test_loader, model)
-    print(f"mAP_50: {metric_summary['map_50']*100:.3f}")
-    print(f"mAP_50_95: {metric_summary['map']*100:.3f}")
