@@ -25,8 +25,6 @@ CLASSES = [
 
 NUM_CLASSES = len(CLASSES)
 
-# Whether to visualize images after crearing the data loaders.
-VISUALIZE_TRANSFORMED_IMAGES = False
 
 # Location to save model and plots.
 OUT_DIR = '/content/Defect-Detection/NetDirectory/outputs'
