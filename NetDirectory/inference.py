@@ -7,6 +7,10 @@ from config import (BATCH_SIZE, RESIZE_TO, NUM_WORKERS,
                     NUM_CLASSES, OUT_DIR, COLORS
                     )
 from eval import validate
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+
 
 
 def test_inference(DIR_TEST, CLASSES, model, CONF_THRESHOLD = 0.5): 
@@ -92,9 +96,9 @@ def test_inference(DIR_TEST, CLASSES, model, CONF_THRESHOLD = 0.5):
   print(f"Average FPS: {avg_fps:.3f}")
 
 
-def per_class_stat(valid_loader, model, classes, save_path):
+def per_class_stat(valid_loader, model, classes, save_path, metric):
 
-  stats = validate(valid_loader, model)
+  stats = validate(valid_loader, model, metric)
   print('\n')
   print(stats)
 
