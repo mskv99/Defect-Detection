@@ -57,7 +57,7 @@ def test_inference(DIR_TEST, CLASSES, model, CONF_THRESHOLD = 0.5):
         boxes = outputs[0]['boxes'].data.numpy()
         scores = outputs[0]['scores'].data.numpy()
         # Filter out boxes according to `detection_threshold`.
-        boxes = boxes[scores >= CONF_TRESHOLD].astype(np.int32)
+        boxes = boxes[scores >= CONF_THRESHOLD].astype(np.int32)
         draw_boxes = boxes.copy()
         # Get all the predicited class names.
         pred_classes = [CLASSES[i] for i in outputs[0]['labels'].cpu().numpy()]
