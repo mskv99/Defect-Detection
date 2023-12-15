@@ -6,7 +6,7 @@ from torchmetrics.detection.mean_ap import MeanAveragePrecision
 
 
 # Evaluation function
-def validate(valid_data_loader, model):
+def validate(valid_data_loader, model, metric):
     model.eval()
     
     # Initialize tqdm progress bar.
