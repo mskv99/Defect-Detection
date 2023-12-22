@@ -21,7 +21,7 @@
 |**Число структур** |	1499 |	290 |	149 |
 |**Число изображений** |	380 |	83 |	37 |
 
-Таблица 1: Статистика по датасету SEM-изображений для каждой из выборок
+**Таблица 1**: Статистика по датасету SEM-изображений для каждой из выборок
 
 
 
@@ -37,9 +37,8 @@
 
 ## Графики обучения
 * [FasterRCNN](https://api.wandb.ai/links/ml_team_mskv/ct39z2bb)
-* [RetinaNet](https://wandb.ai/ml_team_mskv/RetinaNet/reports/RetinaNet--Vmlldzo1MTEzOTE4?accessToken=lphq8w1ekatlghijp4tzxrlqjn0ipgtg73jyrz9199o5kzodobo71g85l5gi1h1l)
 * [YoloV5](https://wandb.ai/ml_team_mskv/YOLOv5/reports/YoloV5--Vmlldzo1MTA2OTMw?accessToken=z32xznnqlqqtrt1i3xuqhu4bimcaeh0ys879jus351ugovp3un8lximih0e038kx)
-
+* [RT-DETR](https://www.comet.com/mldrdrew99/rt-detr/reports/rt-detr)
 ## Результаты
 
 |                                          |  SRAF | BRIDGE |  GAP  | All(mAP_0.5) |
