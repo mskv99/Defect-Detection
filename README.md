@@ -41,7 +41,7 @@
 * [RT-DETR](https://www.comet.com/mldrdrew99/rt-detr/reports/rt-detr)
 ## Результаты
 
-|                                          |  SRAF | BRIDGE |  GAP  | All(mAP_0.5) |
+|                                          |  SRAF | BRIDGE |  GAP  | All(mAP@0.5) |
 |:----------------------------------------:|:-----:|:------:|:-----:|:------------:|
 |      **Faster R-CNN** (ResNet50-FPN-v2)      | 0.948 |  0.964 | 0.782 |     0.898    |
 |   **Faster R-CNN** (MobileNetV3-Large-FPN)   | 0.919 |  0.953 | 0.690 |     0.854    |
@@ -59,7 +59,7 @@
 **Таблица 2**: точность по каждому классу и по всем классам при уровне порога **IoU=0.5** для валидационной выборки
 
 
-|                                          |  SRAF | BRIDGE |  GAP  | All(mAP_0.5:0.95) |
+|                                          |  SRAF | BRIDGE |  GAP  | All(mAP@0.5:0.95) |
 |:----------------------------------------:|:-----:|:------:|:-----:|:-----------------:|
 |      **Faster R-CNN** (ResNet50-FPN-v2)      | 0.662 |  0.544 | 0.403 |       0.536       |
 |   **Faster R-CNN** (MobileNetV3-Large-FPN)   | 0.610 |  0.514 | 0.337 |       0.487       |
@@ -90,6 +90,18 @@
 |               **RT-DETR-x**              | 25.13 |
 
 **Таблица 4**: FPS для различных конфигураций моделей детекторов на  Tesla T4 GPU
+
+
+## Веса моделей
+|             model name                   |
+|:----------------------------------------:|
+| [**Faster R-CNN**  (Resnet50-FPN-v2)](https://drive.google.com/file/d/1-dLBgpC4e4PL9Xl84aRA8zkWnshp1arm/view?usp=sharing)   | 
+| [**Faster R-CNN** (MobileNetV3-Large-FPN)](https://drive.google.com/file/d/1-AuW0iwxTGy96HYhCn3nWFN61H_h0kO4/view?usp=sharing) | 
+| [**YoloV5s** (default)](https://drive.google.com/file/d/1-19iOTXsu9_dltyM_-m6g9L8DbP4mwZJ/view?usp=sharing)          | 
+| [**YoloV5m** (optimized)](https://drive.google.com/file/d/1-rsaF5_9r_-3tQURl1Ubr86M0k883g8K/view?usp=sharing)         | 
+| [**YoloV5l** (optimized)](https://drive.google.com/file/d/1-snnfjWWDrZNZLwNW2VG3VV-sQJFi7dj/view?usp=sharing)         | 
+| [**RT-DETR-l**](https://drive.google.com/file/d/1-0v-BSLm2acIgzN31A8Df2l3acGUN_mz/view?usp=sharing)              | 
+| [**RT-DETR-x**](https://drive.google.com/file/d/1-1z8KREGyzb1jNTK_8srFuANJNWroijR/view?usp=sharing)              |
 
 
 
