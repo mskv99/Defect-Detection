@@ -40,6 +40,7 @@
 * [YoloV5](https://wandb.ai/ml_team_mskv/YOLOv5/reports/YoloV5--Vmlldzo1MTA2OTMw?accessToken=z32xznnqlqqtrt1i3xuqhu4bimcaeh0ys879jus351ugovp3un8lximih0e038kx)
 * [RT-DETR](https://www.comet.com/mldrdrew99/rt-detr/reports/rt-detr)
 ## Результаты
+*Результаты в ближайшее время будут уточнены с учётом величин стандартных отклонений и нового эксперимента с моделью Yolo-NAS*
 
 |                                          |  SRAF | BRIDGE |  GAP  | All(mAP@0.5) |
 |:----------------------------------------:|:-----:|:------:|:-----:|:------------:|
@@ -102,11 +103,16 @@
 | [**YoloV5l** (optimized)](https://drive.google.com/file/d/1-snnfjWWDrZNZLwNW2VG3VV-sQJFi7dj/view?usp=sharing)         | 
 | [**RT-DETR-l**](https://drive.google.com/file/d/1-0v-BSLm2acIgzN31A8Df2l3acGUN_mz/view?usp=sharing)              | 
 | [**RT-DETR-x**](https://drive.google.com/file/d/1-1z8KREGyzb1jNTK_8srFuANJNWroijR/view?usp=sharing)              |
+|[**Yolo-NAS-s**](https://drive.google.com/file/d/1R1kCsbbr8efXn6X-E0RcFi94hmCpNnR3/view?usp=sharing)   |
+|[**Yolo-NAS-m**](https://drive.google.com/file/d/1--ns3JQQ4KYO-BWGC7Qv8ILR1liTjLXM/view?usp=sharing)|
+|[**Yolo-NAS-l**](https://drive.google.com/file/d/1-36Jo-noUxDncl4s7do8RAy7iwtFIZDM/view?usp=sharing)|
 
 
 
 
 ## Вывод
+
+*Выводы в ближайшее время будут уточнены с учётом величин стандартных отклонений и нового эксперимента с моделью Yolo-NAS*
 В работе проведён сравнительный анализ моделей нейросетевых детекторов. Все модели детекторов продемонстрировали высокую среднюю точность детекции по всем классам как при единственном значении порога IoU(**mAP@0.5**≥0.854), так и при нескольких пороговых значениях IoU(**mAP@0.5:0.95** > 0.449).
 
 Наиболее сложным классом для детекции оказался дефект типа’GAP’. Данный тип дефекта не всегда просто отличить от фона на изображении или от самой структуры, на которой он присутствует. При составлении набора данных необходимо также учитывать, что количество структур данного типа на одном изображении в среднем превосходит количество дефектов других типов. Это важно для создания сбалансированного набора данных.
