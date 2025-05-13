@@ -5,8 +5,8 @@ import torch
 
 def main(model_config:str = None,
          model_type: str ='yolo11s.pt',
-         data_config: str ='data/processed/defects/data.yaml',
-         project: str ='/mnt/data/amoskovtsev/defect-detection',
+         data_config: str ='data/processed/dataset-v1/data.yaml',
+         project: str ='/mnt/data/amoskovtsev/defect-detection/detection/',
          epochs: int = 50,
          imgsz: int = 640,
          batch: int = 16,
@@ -21,10 +21,11 @@ def main(model_config:str = None,
     device = 'mps'
   else:
     device = 'cpu'
+  print(f'Running training on {device} device...')
 
   if log_wandb:
     WANDB_KEY = '7f7117ef2660f827c823ba03863048fe0eea4801'
-    wandb.login(WANDB_KEY)
+    wandb.login(key=WANDB_KEY)
     model = YOLO(model_type)
     print(f'Model info:{model.info()}')
 
@@ -38,7 +39,7 @@ def main(model_config:str = None,
       project = 'defect-detection',
       seed = seed,
       deterministic = deterministic,
-      device = device
+      device = device,
     )
   else:
     model = YOLO(model_type)
@@ -53,12 +54,10 @@ def main(model_config:str = None,
       project = project,
       seed = seed,
       deterministic = deterministic,
-      device = device
+      device = device,
     )
 
-  print(f'Training results:{results}')
   metrics = model.val(data=data_config)
-  print(f'Metrics on validation set: {metrics}')
 
 
 if __name__ == "__main__":

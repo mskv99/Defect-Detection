@@ -11,12 +11,12 @@ def main(data_config: str = 'data/processed/defects/data.yaml',
     device = 'mps'
   else:
     device = 'cpu'
+  print(f'Running evaluation on {device} device...') 
 
   model = YOLO(weights)
   metrics = model.val(data=data_config,
                       project = project,
                       device = device)
-  print(f'Metrics: {metrics}')
 
 if __name__=='__main__':
   fire.Fire(main)

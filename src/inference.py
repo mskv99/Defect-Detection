@@ -16,7 +16,7 @@ def main(inf_dir: str = None,
     device = 'mps'
   else:
     device = 'cpu'
-
+  print(f'Running inference on {device} device...')
   model.predict(source = inf_dir,
                 imgsz = imgsz,
                 conf = conf,
