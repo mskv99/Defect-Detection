@@ -13,7 +13,8 @@ def main(model_config:str = None,
          workers: int = 8,
          seed:int = 42,
          deterministic: bool = True,
-         log_wandb: bool = True) -> None:
+         log_wandb: bool = True,
+         name: str = None) -> None:
 
   if torch.cuda.is_available():
     device = 'cuda:0'
@@ -30,7 +31,7 @@ def main(model_config:str = None,
     print(f'Model info:{model.info()}')
 
     results = model.train(
-      model = model_config,
+      cfg = model_config,
       data = data_config,
       epochs = epochs,
       batch = batch,
@@ -40,12 +41,13 @@ def main(model_config:str = None,
       seed = seed,
       deterministic = deterministic,
       device = device,
+      name = name
     )
   else:
     model = YOLO(model_type)
     print(f'Model info:{model.info()}')
     results = model.train(
-      model = model_config,
+      cfg = model_config,
       data = data_config,
       epochs = epochs,
       batch = batch,
@@ -55,6 +57,7 @@ def main(model_config:str = None,
       seed = seed,
       deterministic = deterministic,
       device = device,
+      name = name
     )
 
   metrics = model.val(data=data_config)
